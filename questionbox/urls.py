@@ -25,8 +25,8 @@ if settings.DEBUG:
     import debug_toolbar
     urlpatterns = [
         path('__debug__/', include(debug_toolbar.urls)),
-        path('', name="homepage"),
-        path('user_profile', name="profile")
+        # path('', name="homepage"),
+        # path('user_profile', name="profile")
         
 
         # For django versions before 2.0:
