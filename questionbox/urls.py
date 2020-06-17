@@ -16,17 +16,19 @@ Including another URLconf
 from django.contrib import admin
 from django.conf import settings
 from django.urls import include, path
+from core import views as questionbox_views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('', questionbox_views.homepage, name="homepage"),
+    # path('user_profile', name="profile")
 ]
 
 if settings.DEBUG:
     import debug_toolbar
     urlpatterns = [
         path('__debug__/', include(debug_toolbar.urls)),
-        # path('', name="homepage"),
-        # path('user_profile', name="profile")
+        
         
 
         # For django versions before 2.0:
