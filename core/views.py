@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect, get_list_or_404
 from django.contrib.auth.decorators import login_required
 from .models import Question, Answer, User
-# from .forms import QuestionBoxForm
+from .forms import QuestionForm
 from django.db.models import Q
 
 
@@ -25,7 +25,7 @@ def add_question(request):
             return redirect(to="homepage")
     else:
         form = QuestionForm()
-    return render(request, "questionbox/add_question.html")
+    return render(request, "questionbox/add_question.html", {"form": form})
 
 # @login_required
 # def add_answer(request):

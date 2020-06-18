@@ -7,7 +7,7 @@ class QuestionForm(forms.ModelForm):
         model = Question
         fields = [
             'title',
-            'question_text'
+            'body',
 
         ]
         # model = Answer
