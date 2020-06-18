@@ -22,7 +22,9 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', questionbox_views.homepage, name="homepage"),
     path('accounts/', include('registration.backends.simple.urls')),
-    path('questionbox/add_question/', questionbox_views.add_question, name="add_question")
+    path('questionbox/add_question', questionbox_views.add_question, name="add_question"),
+    path('questionbox/your_questions', questionbox_views.display_questions, name="your_questions"),
+    path('questionbox/<int:question_pk>/show_question', questionbox_views.show_question, name="show_question")
     # path('user_profile', name="profile")
 ]
 
@@ -30,9 +32,6 @@ if settings.DEBUG:
     import debug_toolbar
     urlpatterns = [
         path('__debug__/', include(debug_toolbar.urls)),
-        
-        
-
         # For django versions before 2.0:
         # url(r'^__debug__/', include(debug_toolbar.urls)),
     ] + urlpatterns

@@ -22,6 +22,7 @@ class Question(models.Model):
 
 class Answer(models.Model):
     og_user = models.ForeignKey(to=User, on_delete=models.CASCADE, related_name="answers")
+    answer_to_question = models.ForeignKey(to=Question, on_delete=models.CASCADE, related_name="answers")
     title = models.CharField(max_length=100)
     answer_text = models.TextField()
     

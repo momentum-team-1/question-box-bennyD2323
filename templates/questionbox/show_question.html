@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+
+
+
+{% block content %}
+
+<body>
+<h3>{{ question.title }}</h3> 
+{% if question.body %}
+    {{ question.body }}
+
+{% endif %}
+
+
+
+
+</body>
+
+{% endblock %}
