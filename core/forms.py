@@ -1,7 +1,7 @@
 from django import forms
 from .models import Question, Answer
 
-class QuestionBoxForm(forms.ModelForm):
+class QuestionForm(forms.ModelForm):
 
     class Meta:
         model = Question
@@ -10,11 +10,11 @@ class QuestionBoxForm(forms.ModelForm):
             'question_text'
 
         ]
-        model = Answer
-        fields = [
-            'title'
-            'answer_text'
-        ]
+        # model = Answer
+        # fields = [
+        #     'title'
+        #     'answer_text'
+        # ]
 
 
 

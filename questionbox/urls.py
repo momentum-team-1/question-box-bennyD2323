@@ -21,6 +21,8 @@ from core import views as questionbox_views
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', questionbox_views.homepage, name="homepage"),
+    path('accounts/', include('registration.backends.simple.urls')),
+    path('questionbox/add_question/', questionbox_views.add_question, name="add_question")
     # path('user_profile', name="profile")
 ]
 
