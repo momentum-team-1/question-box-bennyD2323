@@ -6,10 +6,11 @@ from users.models import User
 
 
 class Question(models.Model):
-    og_user = models.ForeignKey(to=User, on_delete=models.CASCADE, related_name="questions", null=True)
+    og_user = models.ForeignKey(to=User, on_delete=models.CASCADE, related_name="questions")
     title = models.CharField(max_length=100)
-    body = models.TextField()
+    body = models.TextField(max_length=800)
     created_at = models.DateTimeField(auto_now_add=True)
+
     def __str__(self):
         return self.title
 # Question
