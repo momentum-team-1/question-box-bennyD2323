@@ -6,10 +6,10 @@ from users.models import User
 
 
 class Question(models.Model):
-    og_user = models.ForeignKey(to=User, on_delete=models.CASCADE, related_name="questions")
+    og_user = models.ForeignKey(to=User, on_delete=models.CASCADE, related_name="questions", null=True)
     title = models.CharField(max_length=100)
     body = models.TextField()
-
+    created_at = models.DateTimeField(auto_now_add=True)
     def __str__(self):
         return self.title
 # Question
@@ -21,7 +21,7 @@ class Question(models.Model):
 # many to many relationship
 
 class Answer(models.Model):
-    og_user = models.ForeignKey(to=User, on_delete=models.CASCADE, related_name="answers")
+    og_user = models.ForeignKey(to=User, on_delete=models.CASCADE, related_name="answers", null=True)
     answer_to_question = models.ForeignKey(to=Question, on_delete=models.CASCADE, related_name="answers")
     title = models.CharField(max_length=100)
     answer_text = models.TextField()
