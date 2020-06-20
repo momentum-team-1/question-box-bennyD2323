@@ -23,7 +23,8 @@ urlpatterns = [
     path('', questionbox_views.homepage, name="homepage"),
     path('accounts/', include('registration.backends.simple.urls')),
     path('questionbox/add_question', questionbox_views.add_question, name="add_question"),
-    path('questionbox/your_questions', questionbox_views.display_questions, name="your_questions"),
+    path('questionbox/add_answer', questionbox_views.add_answer, name="add_answer"),
+    path('questionbox/your_questions', questionbox_views.display_your_questions, name="your_questions"),
     path('questionbox/<int:question_pk>/show_question', questionbox_views.show_question, name="show_question")
     # path('user_profile', name="profile")
 ]

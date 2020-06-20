@@ -3,12 +3,13 @@
 
 
 {% block content %}
-
+<a href="{% url 'your_questions' %}"><button>Back to all Questions</button></a>
 <body>
 <h3>{{ question.title }}</h3> 
 {% if question.body %}
-    {{ question.body }}
+    <div>{{ question.body }}</div>
 
+<button><a href="{% url 'add_answer' question_pk=question.pk %}">Give your 2 cents</a></button>
 {% endif %}
 
 
@@ -17,3 +18,4 @@
 </body>
 
 {% endblock %}
+

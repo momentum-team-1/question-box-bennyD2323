@@ -5,7 +5,7 @@
 {% block content %}
 <body class="d-block"></body>
 
-<button>Button</button>
+<button><a href="{% url 'your_questions' %}">Back to your Questions</a></button>
 <form action="{% url 'add_question' %}" method="POST">
 {% csrf_token %}
 {{ form.as_p }}
