@@ -5,9 +5,9 @@
 {% block content %}
 <button>Button</button>
 <body>
-<p>{{ question.title }}</p>
-<p>{{ question.body }}</p>
-<form action="{% url 'add_answer' %}" method="POST">
+    <p>{{ question.title }}</p>
+    <p>{{ question.body }}</p>
+<form action="{% url 'add_answer' question_pk=question.pk %}" method="POST">
 {% csrf_token %}
 {{ form.as_p }}
 <button type="submit">Give your 2 cents</button>

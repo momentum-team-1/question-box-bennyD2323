@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from .models import Question, Answer, User
-from .forms import QuestionForm
+from .forms import QuestionForm, AnswerForm
 from django.db.models import Q
 
 
@@ -34,15 +34,16 @@ def show_question(request, question_pk):
 
 @login_required
 def add_answer(request, question_pk):
+    question = get_object_or_404(request.user.questions, pk=question_pk)
+
     if request.method == "POST":
         form = AnswerForm(data=request.POST)
         if form.is_valid():
             answer = form.save(commit=False)
             answer.user = request.user
-            answer.question = request.question
             answer.save()
             return redirect(to="show_question", question_pk=question.pk)
     else:
         form = AnswerForm()
-    return render(request,"questionbox/add_answer.html")
+    return render(request,"questionbox/add_answer.html", {"form":form, "question":question})
 
