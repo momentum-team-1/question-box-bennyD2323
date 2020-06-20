@@ -16,8 +16,8 @@ class Question(models.Model):
 #
 class Answer(models.Model):
     og_user = models.ForeignKey(to=User, on_delete=models.CASCADE, related_name="answers", null=True)
-    question = models.ForeignKey(to=Question, on_delete=models.CASCADE, related_name="answers")
-    body = models.TextField(max_length=1500)
+    question = models.ForeignKey(to=Question, on_delete=models.CASCADE, related_name="answers", null=True)
+    body = models.TextField(max_length=1500, null=True)
     created_at = models.DateTimeField(auto_now_add=True, null=True, blank=True)
     
     def __str__(self):

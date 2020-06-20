@@ -30,7 +30,8 @@ def add_question(request):
 @login_required
 def show_question(request, question_pk):
     question = get_object_or_404(Question, pk=question_pk)
-    return render(request, "questionbox/show_question.html", {"question": question})
+    answers = Answer.objects.all()
+    return render(request, "questionbox/show_question.html", {"question": question, "answers":answers})
 
 @login_required
 def add_answer(request, question_pk):
@@ -41,6 +42,7 @@ def add_answer(request, question_pk):
         if form.is_valid():
             answer = form.save(commit=False)
             answer.user = request.user
+            answer.question = question
             answer.save()
             return redirect(to="show_question", question_pk=question.pk)
     else:

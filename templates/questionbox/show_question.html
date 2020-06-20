@@ -5,12 +5,19 @@
 {% block content %}
 <a href="{% url 'your_questions' %}"><button>Back to all Questions</button></a>
 <body>
-<h3>{{ question.title }}</h3> 
+<h3>Q{{ question.title }}</h3> 
 {% if question.body %}
-    <div>{{ question.body }}</div>
-
-<button><a href="{% url 'add_answer' question_pk=question.pk %}">Give your 2 cents</a></button>
+    <div> Q{{ question.body }}</div>
 {% endif %}
+
+{% for answer in answers %}
+<div>A:{{ answer.body }}</div>
+{% if user.id == answer.user.id %}
+<button>Delete this Answer</button>
+{% endif %}
+{% endfor %}
+<button><a href="{% url 'add_answer' question_pk=question.pk %}">Give your 2 cents</a></button>
+
 
 
 
