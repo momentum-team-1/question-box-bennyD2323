@@ -6,11 +6,14 @@
 <a href="{% url 'your_questions' %}"><button>Back to all Questions</button></a>
 <body>
 <h3>Q{{ question.title }}</h3> 
+<p>Asked by {{ user_id }}</p>
 {% if question.body %}
     <div> Q{{ question.body }}</div>
 {% endif %}
 
 {% for answer in answers %}
+
+<div>Answered by {{ asker_id }}</div>
 <div>A:{{ answer.body }}</div>
 {% if user.id == answer.user.id %}
 <button>Delete this Answer</button>

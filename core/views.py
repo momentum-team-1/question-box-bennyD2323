@@ -30,8 +30,16 @@ def add_question(request):
 @login_required
 def show_question(request, question_pk):
     question = get_object_or_404(Question, pk=question_pk)
-    answers = Answer.objects.all()
-    return render(request, "questionbox/show_question.html", {"question": question, "answers":answers})
+    user_id = question.og_user
+    answers = question.answers.all()
+    for answer in answers:
+        asker_id = answer.og_user
+    #     answers = question.answers.all()
+    # for answer in answers:
+    #     asker_id = answer.og_user.username
+    return render(request, "questionbox/show_question.html", {"question": question, "answers":answers, "user_id":user_id, })
+# "asker_id":asker_id
+
 
 @login_required
 def add_answer(request, question_pk):
