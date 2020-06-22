@@ -57,3 +57,37 @@ def add_answer(request, question_pk):
         form = AnswerForm()
     return render(request,"questionbox/add_answer.html", {"form":form, "question":question})
 
+
+# @login_required
+# def search(request):
+#     query = request.GET.g('q')
+
+#     if query is not None:
+#         search_results = Question.objects.filter(Q(question_body__icontains=query) | Q(question_title__icontains=query))
+#         search_answers = Answer.objects.filter(Q(answer_text__icontains=query))
+#     else:
+#         search_results = None
+#         search_answers = None
+#     return render(request, 'questionbox/search.html', {"query":query, "search_results":search_results,"answers":answers})
+
+@login_required
+def edit_question(request, question_pk):
+    question = get_object_or_404(request.user.questions, pk=question_pk)
+
+    if request.method == "POST":
+        form = QuestionForm(instance=question, data=request.POST)
+        if form.is_valid():
+            question=form.save()
+            return redirect(to="show_question", question_pk=question.pk)
+        else:
+            form = QuestionForm()
+    return render(request, "questionbox/edit_question.html", {"question":question, "form":form})
+
+@login_required
+def delete_question(request, question_pk):
+    question = get_object_or_404(request.user.questions, pk=question_pk)
+
+    if request.method == "POST":
+        question.delete()
+        return redirect(to="your_questions")
+    return render(request, "questionbox/delete_question.html", {"question":question})

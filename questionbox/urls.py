@@ -25,7 +25,10 @@ urlpatterns = [
     path('questionbox/add_question', questionbox_views.add_question, name="add_question"),
     path('questionbox/<int:question_pk>/add_answer', questionbox_views.add_answer, name="add_answer"),
     path('questionbox/your_questions', questionbox_views.display_your_questions, name="your_questions"),
-    path('questionbox/<int:question_pk>/show_question', questionbox_views.show_question, name="show_question")
+    path('questionbox/<int:question_pk>/show_question', questionbox_views.show_question, name="show_question"),
+    path('questionbox/<int:question_pk>/delete_question', questionbox_views.delete_question, name="delete_question"),
+    path('questionbox/<int:question_pk>/edit_question', questionbox_views.edit_question, name="edit_question"),
+    # path('questionbox/search', questionbox_views.search, name="search")
     # path('user_profile', name="profile")
 ]
 

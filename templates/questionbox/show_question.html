@@ -11,6 +11,19 @@
     <div> Q{{ question.body }}</div>
 {% endif %}
 
+{% if request.user %}
+<div class="d-block">
+<button><a href="{% url 'delete_question' question_pk=question.pk %}">Delete this Question</a></button>
+<button><a href="{% url 'edit_question' question_pk=question.pk %}">Edit this Question</a></button>
+
+{% endif %}
+
+
+
+
+
+
+
 {% for answer in answers %}
 
 <div>Answered by {{ asker_id }}</div>
@@ -20,7 +33,6 @@
 {% endif %}
 {% endfor %}
 <button><a href="{% url 'add_answer' question_pk=question.pk %}">Give your 2 cents</a></button>
-
 
 
 

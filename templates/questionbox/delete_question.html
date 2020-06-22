@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+
+
+
+{% block content %}
+<body>
+    <a href="{% url 'show_question' question_pk=question.pk %}">Back to this Question</a>
+    <p>{{ question.body }}</p>
+    
+    
+    <form action="{% url 'delete_question' question_pk=question.pk %}" method=POST>
+    {% csrf_token %}
+    <p>Are you sure you want to delete "{{ question.title }}"</p>
+
+    <button type="submit">Delete</button>
+    </form>
+    
+    
+    
+</body>
+
+
+{% endblock %}

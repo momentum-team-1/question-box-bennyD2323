@@ -9,6 +9,10 @@
 </head>
 <body class="ml-5">
 <h1 class="mb-3">QUESTION? BOX?</h1>
+{% if user.is_authenticated %}
+<div>Welcome to Question Box {{ user.username }}</div>
+<a href="{% url 'auth_logout' %}">Log out</a>
+{% endif %}
 <div>this is base html</div>
 
 
