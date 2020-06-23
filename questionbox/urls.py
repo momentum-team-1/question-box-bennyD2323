@@ -17,6 +17,13 @@ from django.contrib import admin
 from django.conf import settings
 from django.urls import include, path
 from core import views as questionbox_views
+from rest_framework import routers
+from api import views as api_views
+
+router = routers.DefaultRouter()
+router.register('users', api_views.UserViewSet )
+router.register('questions', api_views.QuestionViewSet)
+router.register('answers', api_views.AnswerViewSet)
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -30,6 +37,8 @@ urlpatterns = [
     path('questionbox/<int:question_pk>/edit_question', questionbox_views.edit_question, name="edit_question"),
     # path('questionbox/search', questionbox_views.search, name="search")
     # path('user_profile', name="profile")
+    path('api-auth/', include('rest_framework.urls')),
+    path('api/', include(router.urls))
 ]
 
 if settings.DEBUG:

@@ -75,12 +75,12 @@ def edit_question(request, question_pk):
     question = get_object_or_404(request.user.questions, pk=question_pk)
 
     if request.method == "POST":
-        form = QuestionForm(instance=question, data=request.POST)
+        form = QuestionForm(data=request.POST, instance=question)
         if form.is_valid():
             question=form.save()
             return redirect(to="show_question", question_pk=question.pk)
-        else:
-            form = QuestionForm()
+    else:
+        form = QuestionForm(instance=question)
     return render(request, "questionbox/edit_question.html", {"question":question, "form":form})
 
 @login_required

@@ -48,10 +48,12 @@ INSTALLED_APPS = [
     'debug_toolbar',
     'django_extensions',
     'registration',
+    'rest_framework',
 
     # Project-specific
     'users',
     'core',
+    'api'
 ]
 
 MIDDLEWARE = [
