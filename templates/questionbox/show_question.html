@@ -5,7 +5,7 @@
 {% block content %}
 <a href="{% url 'your_questions' %}"><button>Back to all Questions</button></a>
 <body>
-<h3>Q{{ question.title }}</h3> 
+<h3>Q{{ question.title }}</h3>
 <p>Asked by {{ user_id }}</p>
 {% if question.body %}
     <div> Q{{ question.body }}</div>

@@ -20,7 +20,7 @@ def add_question(request):
         form = QuestionForm(data=request.POST)
         if form.is_valid():
             question = form.save(commit=False)
-            question.og_user = request.user
+            question.user = request.user
             question.save()
             return redirect(to="show_question", question_pk=question.pk)
     else:
@@ -30,20 +30,20 @@ def add_question(request):
 @login_required
 def show_question(request, question_pk):
     question = get_object_or_404(Question, pk=question_pk)
-    user_id = question.og_user
+    user_id = question.user
     answers = question.answers.all()
     for answer in answers:
-        asker_id = answer.og_user
+        asker_id = answer.user
     #     answers = question.answers.all()
     # for answer in answers:
-    #     asker_id = answer.og_user.username
+    #     asker_id = answer.user.username
     return render(request, "questionbox/show_question.html", {"question": question, "answers":answers, "user_id":user_id, })
 # "asker_id":asker_id
 
 
 @login_required
 def add_answer(request, question_pk):
-    question = get_object_or_404(request.user.questions, pk=question_pk)
+    question = get_object_or_404(Question, pk=question_pk)
 
     if request.method == "POST":
         form = AnswerForm(data=request.POST)
