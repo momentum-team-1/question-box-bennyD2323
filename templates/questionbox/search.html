@@ -3,6 +3,28 @@
 
 
 {% block content %}
+<a href=""></a>
+<h2>Search Questionbox</h2>
+<form action="{% url 'search' %}" method="GET">
+    <input type="search" name="q" placeholder="Search all Questions" value="{{ request.GET.q }}">
+    <button type="submit">Search</button>
+</form>
+{% if search_results is not None %}
+<h4>We found these questions: </h4>
+<ul>
+{% for question in search_results %}
+    {% if user == request.user %}
+    <li><a href="{% url 'show_question' question_pk=question.pk %}">{{ question.title }}</a></li>
+    <p>Question preview: {{ question.body }}</p>
+    <p>Asked by {{ question.user }}</p>
+    {% endif %}
+{% empty %}
+    <p>No questions matched your Search</p>
+{% endfor %}
+{% endif %}
+
+</ul>
+
 
 
 

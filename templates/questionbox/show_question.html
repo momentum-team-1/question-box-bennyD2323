@@ -10,7 +10,11 @@
 {% if question.body %}
     <div> Q{{ question.body }}</div>
 {% endif %}
-
+{% if is_user_favorite %}
+    <a id="favorite-question" data-question-id="{{ question.pk }}" href="#">Unfavorite this Question</a>
+{% else %}
+    <a id="favorite-question" data-question-id="{{ question.pk }}" href="#">Favorite this Question</a>
+{% endif %}
 {% if request.user %}
 <div class="d-block">
 <button><a href="{% url 'delete_question' question_pk=question.pk %}">Delete this Question</a></button>
@@ -18,18 +22,37 @@
 
 {% endif %}
 
-
+<script>
+const favoriteQuestionLink = document.querySelector("#favorite-question")
+favoriteQuestionLink.addEventListener('click', event => { 
+event.preventDefault()
+    const questionId = favoriteQuestionLink.dataset.questionId
+    fetch('/questionbox/' + questionId + '/favorite/', {
+        method: 'POST',
+        credentials: 'include',
+})
+.then(res => res.json())
+.then(data => {
+    if (data.isFavorite) {
+        favoriteQuestionLink.innerHTML = '&#x2605;'
+} else {
+    favoriteQuestionLink.innerHTML = '&#x2606;'
+        }
+    })
+})
+</script>
 
 
 
 
 
 {% for answer in answers %}
-
-<div>Answered by {{ asker_id }}</div>
+<p>
+<div>answered by {{ answer.author }}</div>
 <div>A:{{ answer.body }}</div>
-{% if user.id == answer.user.id %}
+{% if user.id == answer.author.id %}
 <button>Delete this Answer</button>
+</p>
 {% endif %}
 {% endfor %}
 <button><a href="{% url 'add_answer' question_pk=question.pk %}">Give your 2 cents</a></button>

@@ -2,18 +2,43 @@ from rest_framework import serializers
 from users.models import User
 from core.models import Question, Answer
 
-class UserSerializer(serializers.HyperlinkedModelSerializer):
+
+class UserSerializer(serializers.ModelSerializer):
+    questions = serializers.StringRelatedField(many=True)
     class Meta:
         model = User
-        fields = ['id', 'url', 'username', 'email', 'is_staff']
+        fields = [
+            'id', 
+            'url', 
+            'username', 
+            'email', 
+            'is_staff',
+            'questions'
+            ]
 
-class QuestionSerializer(serializers.HyperlinkedModelSerializer):
-    class Meta:
-        model = Question
-        fields = ['id', 'og_user','title','body']
-
-
-class AnswerSerializer(serializers.HyperlinkedModelSerializer):
+class AnswerSerializer(serializers.ModelSerializer):
+    question = serializers.StringRelatedField()
     class Meta:
         model = Answer
-        fields = ['id','og_user','body']
+        fields = [
+        'id',
+        'author',
+        'body',
+        'created_at',
+        'question'
+        ]
+
+class QuestionSerializer(serializers.ModelSerializer):
+    answers = AnswerSerializer(many=True)
+    class Meta:
+        model = Question
+        fields = [
+            'id', 
+            'user',
+            'title',
+            'body',
+            'answers',
+            'created_at']
+            
+
+

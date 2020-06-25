@@ -1,12 +1,15 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
+from django.views.decorators.csrf import csrf_exempt
 from .models import Question, Answer, User
 from .forms import QuestionForm, AnswerForm
-from django.db.models import Q
-
+from django.db.models import Q, Count
+from django.contrib.postgres.search import SearchQuery, SearchVector
+from django.http import JsonResponse
 
 def homepage(request):
-    
+    if request.user.is_authenticated:
+        return redirect(to="your_questions")
     return render(request, 'questionbox/homepage.html')
 
 @login_required
@@ -32,14 +35,24 @@ def show_question(request, question_pk):
     question = get_object_or_404(Question, pk=question_pk)
     user_id = question.user
     answers = question.answers.all()
-    for answer in answers:
-        asker_id = answer.user
-    #     answers = question.answers.all()
-    # for answer in answers:
-    #     asker_id = answer.user.username
-    return render(request, "questionbox/show_question.html", {"question": question, "answers":answers, "user_id":user_id, })
-# "asker_id":asker_id
 
+
+    is_user_favorite = request.user.is_favorite_question(question_pk)
+
+    return render(request, "questionbox/show_question.html", {"question": question, "answers":answers, "user_id":user_id,"is_user_favorite":is_user_favorite,})
+
+@login_required
+@csrf_exempt
+def toggle_favorite(request, question_pk):
+    question = get_object_or_404(Question, pk=question_pk)
+   
+
+    if request.user.is_favorite_question(question_pk):
+        request.user.favorite_questions.remove(question)
+        return JsonResponse({"isFavorite": False})
+    else:
+        request.user.favorite_questions.add(question)
+        return JsonResponse({"isFavorite": True})
 
 @login_required
 def add_answer(request, question_pk):
@@ -49,7 +62,7 @@ def add_answer(request, question_pk):
         form = AnswerForm(data=request.POST)
         if form.is_valid():
             answer = form.save(commit=False)
-            answer.user = request.user
+            answer.author = request.user
             answer.question = question
             answer.save()
             return redirect(to="show_question", question_pk=question.pk)
@@ -58,17 +71,17 @@ def add_answer(request, question_pk):
     return render(request,"questionbox/add_answer.html", {"form":form, "question":question})
 
 
-# @login_required
-# def search(request):
-#     query = request.GET.g('q')
+@login_required
+def search(request):
+    query = request.GET.get('q')
 
-#     if query is not None:
-#         search_results = Question.objects.filter(Q(question_body__icontains=query) | Q(question_title__icontains=query))
-#         search_answers = Answer.objects.filter(Q(answer_text__icontains=query))
-#     else:
-#         search_results = None
-#         search_answers = None
-#     return render(request, 'questionbox/search.html', {"query":query, "search_results":search_results,"answers":answers})
+    if query is not None:
+        search_results = Question.objects.all()
+        search_results = search_results.annotate(search=SearchVector('title', 'body', 'answers__body')).filter(search=query).distinct('pk')
+    else:
+        search_results = None
+        
+    return render(request, 'questionbox/search.html', {"search_results":search_results,"query":query or ""})
 
 @login_required
 def edit_question(request, question_pk):
